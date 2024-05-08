@@ -1,0 +1,4 @@
+Flask
+selenium
+PyPDF2
+google-generativeai

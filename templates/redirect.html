@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            color: aqua;
+            background: conic-gradient(at 50% 25%, #0000 75%, #202020 0),
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) 60px 60px,
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) calc(2 * 60px)
+            calc(2 * 60px),
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) calc(3 * 60px)
+            calc(3 * 60px),
+          repeating-linear-gradient(135deg, #282828 0 12.5%, #242424 0 25%);
+          background-size: calc(4 * 60px) calc(4 * 60px);
+        }
+        .cnt1{
+            text-align: center;
+        }
+        .cnt1 h1 {
+            margin-bottom: 5px; /* Adjust the margin bottom value as needed */
+        }
+        
+        .cnt1 h4 {
+            margin-top: 5px; /* Adjust the margin top value as needed */
+        }
+        .cnt{
+            text-align: justify;
+            background-color: rgba(0, 0, 0, 0.218);
+        }
+        .cnt p {
+            text-align: left; /* Align the text parallel to the left edge */
+            margin: 0; /* Remove default margins */
+        }
+        .cnt2{
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.218);
+        }
+        a {
+            margin: 5px;
+            color: inherit; /* Inherit color from parent */
+            text-decoration: none;
+        }
+        button {
+            border-color: black;
+            border-radius: 6px;
+            color:black;
+            width:30%;
+            height:50px;
+            border-style: ridge;
+            border-width: 7px;
+            background-color: aqua;
+            font-family: Arial, sans-serif;
+        }
+        .animated-text {
+            overflow: hidden;
+            border-right: 3px solid transparent; /* Start with transparent border */
+            animation: typeWriter 2s steps(40) forwards; /* Adjust animation duration */
+        }
+        
+        @keyframes typeWriter {
+            from { width: 0; }
+            to { width: 100%; border-color: transparent; } /* Adjust width and border color */
+        }
+    </style>
+</head>
+<body>
+    <div class='cnt1'>
+       <h1>{{ JOBHEADING }}</h1> 
+       <h4>{{ INDUSTRYNAME }}</h4> 
+       <a id="applyLink" href=""><button>Apply Now</button></a>
+
+        <script>
+            // Get the full URL from the current window location
+            var fullURL = window.location.href;
+        
+            // Define the prefix to be removed
+            var prefix = "http://192.168.1.76:5000/redirect/";
+        
+            // Check if the URL starts with the prefix
+            if (fullURL.startsWith(prefix)) {        
+                // Extract the part of the URL that comes after the prefix
+                var extractedURL = fullURL.slice(prefix.length);
+        
+                // Set the href attribute of the anchor tag to the extracted URL
+                document.getElementById("applyLink").href = extractedURL;
+            } else {
+                // If the prefix is not found, disable the link and display an error message
+                document.getElementById("applyLink").href = "#";
+                document.getElementById("applyLink").setAttribute("onclick", "alert('Prefix not found in URL');");
+            }
+        </script>
+    </div>
+    <p style='color:rgb(115, 246, 246);'><strong style='color:aqua;'>Experience:</strong> {{ EXPHEAD }}</p>
+    <p style='color:rgb(115, 246, 246);'><strong style='color:aqua;'>Location:</strong> {{ LOCHEAD }}</p>
+    <p style='color:rgb(115, 246, 246);'><strong style='color:aqua;'>Applicants:</strong> {{ APPLICANTS }}</p>
+    <div class='cnt'>
+        <h3>AI Insight: Job Description</h3>
+        <p style='color:rgb(115, 246, 246);' class='animated-text' id='description'>{{description}}<p>
+            <script>
+                var descriptionElement = document.getElementById('description');
+                var descriptionText = descriptionElement.textContent;
+                var descriptionArray = descriptionText.split(/\s*[*]\s*/);
+                var formattedDescription = descriptionArray.map(part => '<p>' + part.trim() + '</p>').join('');
+                descriptionElement.innerHTML = formattedDescription;
+            </script>
+    </div>
+    <div class='cnt'>
+        <h3>AI-Crafted Cover Letter</h3>
+        <p style='color:rgb(115, 246, 246);' class='animated-text' id='cover'>{{cover}}<p>
+    </div>
+    <div class='cnt'>
+        <h3>Algorithmic Advice: Interview Tips</h3>
+        <p style='color:rgb(115, 246, 246);' class='animated-text' id='inter_tips'>{{inter_tips}}<p>
+            <script>
+                var descriptionElement = document.getElementById('inter_tips');
+                var descriptionText = descriptionElement.textContent;
+                var descriptionArray = descriptionText.split(/\s*[-*]\s*/);
+                var formattedDescription = descriptionArray.map(part => '<p>' + part.trim() + '</p>').join('');
+                descriptionElement.innerHTML = formattedDescription;
+            </script>
+    </div>
+    <div class='cnt'>
+        <h3>Inside the Matrix: About The Company</h3>
+        <p style='color:rgb(115, 246, 246);' class='animated-text' id='about_com'>{{about_com}}<p>
+    </div>
+    <div class='cnt2'>
+        <h3>Neural Nexus: Key Skills Required</h3>
+        <p style='color:rgb(115, 246, 246);' id="skills">{{skills_list}}<p>
+        <script>
+            var skillsElement = document.getElementById('skills');
+            var skillsText = skillsElement.textContent;
+            var skillsArray = skillsText.split(' /');
+            var formattedSkills = skillsArray.join(', ');
+            skillsElement.innerHTML = formattedSkills.toUpperCase();
+        </script>
+    </div>
+    <br>
+</body>
+</html>

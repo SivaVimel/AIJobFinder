@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Links</title>
+    <style>
+        body{
+            background: conic-gradient(at 50% 25%, #0000 75%, #202020 0),
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) 60px 60px,
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) calc(2 * 60px)
+            calc(2 * 60px),
+          conic-gradient(at 50% 25%, #0000 75%, #202020 0) calc(3 * 60px)
+            calc(3 * 60px),
+          repeating-linear-gradient(135deg, #282828 0 12.5%, #242424 0 25%);
+          background-size: calc(4 * 60px) calc(4 * 60px);
+            color: aqua;
+        }
+        button {
+            background-color: rgba(0, 0, 0, 0.418);
+            color: aqua;
+            width: 90%;
+            height: 100px;
+            margin: 0 auto;
+            display: block; 
+            font-size: 1em; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+            border-radius: 10px;
+            border-color:aqua;
+            transition: border-color 0.3s;
+        }
+        button:focus, button:active {
+            outline: none; /* Remove default outline */
+            color: white;
+            border-color: white; /* Change border color on focus/active */
+        }
+        a {
+            margin: 5px;
+            color: inherit; /* Inherit color from parent */
+            text-decoration: none;
+        }
+        ul {
+            list-style-type: none; 
+            padding: 0;
+        }
+        li {
+            margin-bottom: 20px; 
+        }
+        .cnt{
+            text-align: justify;
+            background-color: rgba(0, 0, 0, 0.218);
+            padding-left: 20px; /* Adjust the left padding as needed */
+            padding-right: 20px;
+            padding-bottom: 20px;
+        }
+        canvas { 
+            display: none;
+            width: 80%; /* Adjust the width as needed */
+            max-width: 600px; /* Optional: set a maximum width */
+            display: block;
+            margin: auto; /* Set margin to auto to center horizontally */
+            position: fixed; /* Position the canvas */
+            top: 50%; /* Place the canvas 50% from the top */
+            left: 50%; /* Place the canvas 50% from the left */
+            transform: translate(-50%, -50%);
+            z-index: 2;
+          }
+          * { margin: 0; padding: 0; }
+          .timer { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4; color: aqua; font-size: 24px; }
+    </style>
+    <script>
+        //FOUNDIT
+        function getJobNameFromFounditUrl(url) {
+            var urlParts = url.split('?')[1].split('&');
+            for (var i = 0; i < urlParts.length; i++) {
+                var param = urlParts[i].split('=');
+                if (param[0] === 'query') {
+                    return decodeURIComponent(param[1]);
+                }
+            }
+            return null;
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("www.foundit.in/srp/results")) {
+                    var jobName = getJobNameFromFounditUrl(content);
+                    if (jobName !== null) {
+                        link.textContent = jobName.toUpperCase();
+                    }
+                }
+            });
+        });
+
+        //TIMESJOB
+        function getTimesJobNameFromURL(url) {
+            var urlParts = url.split('/');
+            var jobNamePart = urlParts[urlParts.length - 1];
+            var jobName = jobNamePart.split('-').slice(0, -2).join('-');
+            var firstFourWords = jobName.replace(/-/g, ' ').split(' ').slice(0, 4).join(' ');
+            return firstFourWords;
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("timesjobs.com/job-detail")) {
+                    var jobName = getTimesJobNameFromURL(content);
+                    link.textContent = jobName.toUpperCase();
+                }
+            });
+        });
+
+        //SHINE
+        function getShineJobNameFromURL(url) {
+            var jobNamePart = url.split('/').slice(-3, -2)[0];
+            var jobName = jobNamePart.split('-').slice(0, 4).join(' ');
+            return jobName.replace(/-/g, ' ');
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("shine.com/jobs")) {
+                    var jobName = getShineJobNameFromURL(content);
+                    link.textContent = jobName.toUpperCase();
+                }
+            });
+        });
+
+        //GLASSDOOR
+        function getGlassdoorJobNameFromURL(url) {
+            var jobNamePart = url.split('/')[4];
+            var jobName = jobNamePart.split('-').slice(0, 4).join(' ');
+            return jobName.replace(/-/g, ' ');
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("glassdoor.co.in/job-listing")) {
+                    var jobName = getGlassdoorJobNameFromURL(content);
+                    link.textContent = jobName.toUpperCase();
+                }
+            });
+        });
+
+        //NAUKRI
+        function getNaukriJobNameFromURL(url) {
+            var jobNamePart = url.split('-').slice(2, 6).join('-');
+            return jobNamePart.replace(/-/g, ' ');
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("naukri.com/job-listings")){
+                    var jobName = getNaukriJobNameFromURL(content);
+                    link.textContent = jobName.toUpperCase();
+                }
+            });
+        });
+
+        //INDEED
+        function getIndeedJobNameFromURL(url) {
+            var params = new URLSearchParams(url.split('?')[1]);
+            var jobName = params.get('ti');
+            if (jobName) {
+                return jobName.replace(/\+/g, ' ');
+            }
+            return null;
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("indeed.com/rc/clk")) {
+                    var jobName = getIndeedJobNameFromURL(content);
+                    if (jobName) {
+                        link.textContent = jobName.toUpperCase();
+                    }
+                }
+            });
+        });
+
+        //LINKEDIN
+        function getJobNameFromUrl(url) {
+            var urlParts = url.split('/');
+            var jobNamePart = urlParts[urlParts.length - 1];
+            var jobName = jobNamePart.split('?')[0];
+            var jobNameWithoutNumbers = jobName.split('-').slice(0, -1).join('-');
+            return jobNameWithoutNumbers.replace(/[-%]/g, ' ');
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            var links = document.querySelectorAll("ul > li > button > a");
+            links.forEach(function(link) {
+                var content = link.getAttribute('content');
+                if (content && content.includes("linkedin.com/jobs")) {
+                    var jobName = getJobNameFromUrl(content);
+                    link.textContent = jobName.toUpperCase();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <script>
+        // Listen for the pageshow event
+        window.addEventListener('pageshow', function(event) {
+            // Check if navigation is through the browser's back or forward buttons
+            if (event.persisted) {
+                // Reload the page
+                window.location.reload();
+            }
+        });
+    </script>
+    <h1 style='text-align:center;'>{{ content }}</h1>
+    <div class='cnt'>
+        <p>{{about_me}}</p>
+        <p>{{advice}}</p>
+    </div>
+
+    <ul>
+        {% for link in TIMES_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in shine_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in glassdoor_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in naukri_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in foundit_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in indeed_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for link in linkedin_links %}
+            <li><button><a id="startButton" onclick="startGame()" content="{{ link }}" href="{{ url_for('redirect_to_link', link=link) }}">{{ link }}</a></button></li>
+        {% endfor %}
+    </ul>
+    <canvas id="matrixCanvas">
+          
+    </canvas>
+
+<script>
+ function startGame() {
+
+   var startButton = document.getElementById('startButton');
+   startButton.style.display = 'none'; // Hide the start button
+
+   var canvas = document.getElementById('matrixCanvas');
+   canvas.style.display = 'block'; // Display the canvas
+   canvas.width = window.innerWidth;
+   canvas.height = window.innerHeight;
+
+   var ctx = canvas.getContext('2d');
+   var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
+   letters = letters.split('');
+
+   var fontSize = 10;
+   var columns = canvas.width / fontSize;
+   var drops = [];
+   for (var i = 0; i < columns; i++) {
+       drops[i] = 1;
+   }
+
+   // Function to animate the matrix effect
+   function draw() {
+       ctx.fillStyle = 'transparent';
+       ctx.fillRect(0, 0, canvas.width, canvas.height);
+       for (var i = 0; i < drops.length; i++) {
+           var text = letters[Math.floor(Math.random() * letters.length)];
+           ctx.fillStyle = '#0f0';
+           ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+           drops[i]++;
+           if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+               drops[i] = 0;
+           }
+       }
+
+       var sentences = [
+           "www.linkedin.com/u23049u0j",
+           "www.timejob.com/09uwqohnodn",
+           "www.shine.come/uqwghdh",
+           "in.indeed.com/09232y9",
+           "www.foundit.in/09r12uewd",
+           "www.glassdoor.come/09r12u0"
+       ];
+       
+       // Function to draw the matrix rain effect on the canvas
+       function drawMatrixRain() {
+           ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Set a slightly transparent black background to create a fading effect
+           ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with the background color
+       
+           // Set the font style and size for the sentences
+           ctx.font = '14px Arial';
+           ctx.fillStyle = 'aqua'; // Set the color to aqua
+       
+           // Loop through the sentences and print them on the canvas with random positions
+           for (var i = 0; i < sentences.length; i++) {
+               var sentence = sentences[i];
+               var x = Math.floor(Math.random() * canvas.width); // Randomize the X-coordinate
+               var y = Math.floor(Math.random() * canvas.height); // Randomize the Y-coordinate
+               ctx.fillText(sentence, x, y);
+           }
+       }
+       // Save the current canvas context state
+       ctx.save();
+
+       // Draw the "Fetching Data" heading on top of the matrix animation
+       var headingText = "Fetching Data:";
+       ctx.fillStyle = '#2FF924'; // Green color
+       ctx.font = 'bold 24px Arial'; // Font style and size
+       ctx.textAlign = 'center'; // Center align the text horizontally
+       ctx.fillText(headingText, canvas.width / 2, canvas.height / 6); // Draw text at the center of the canvas
+
+       // Restore the canvas context state to revert font changes
+       ctx.restore();
+       
+       // Call the drawMatrixRain function repeatedly to create the matrix rain effect
+       setInterval(drawMatrixRain, 100);
+   }
+
+   // Loop the animation
+   setInterval(draw, 33);
+
+   var startTime = Date.now();
+   var timerDisplay = document.getElementById('timerDisplay');
+   timerDisplay.style.display = 'block';
+
+   function updateTime() {
+       var elapsedTime = Date.now() - startTime;
+       var hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+       var minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+       var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+       // Format the time
+       var formattedTime = padZero(hours) + ':' + padZero(minutes) + ':' + padZero(seconds);
+
+       // Update the timer display
+       timerDisplay.querySelector('h3').innerText = formattedTime;
+   }
+
+   // Call updateTime every second
+   setInterval(updateTime, 1000);
+
+   // Function to pad zero to single digit numbers
+   function padZero(num) {
+       return (num < 10 ? '0' : '') + num;
+   }
+}
+</script>
+<br>
+<div class="timer" id="timerDisplay">
+ <p> Hold on! AI in action for you [MAX: 00:02:17]
+   <script src="https://cdn.lordicon.com/lordicon.js"></script>
+   <lord-icon
+       src="https://cdn.lordicon.com/rguiapej.json"
+       trigger="loop"
+       delay="2000"
+       colors="primary:aqua"
+       style="width:25px;height:25px">
+   </lord-icon>
+ </p>
+ <h3>00:00:00</h3>
+</div>
+</body>
+</html>
